@@ -1,210 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Weather App - Easy tutorial</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="card">
-            <div class="search">
-                <input type="text" placeholder="Enter city name"
-                    spellcheck="false"
-                    autocomplete="off">
-                <ul class="suggestions"></ul>
-                <button class="btn">
-                    <img src="./Asset/search.png" alt="search icon">
-                </button>
-            </div>
-            <div class="weather">
-                <img src="Asset/rain.png" class="weather-icon"
-                    alt="weather icon">
-                <h1 class="temp">22°c</h1>
-                <h2 class="city">New York</h2>
-                <div class="details">
-                    <div class="col">
-                        <img src="Asset/humidity.png" alt>
-                        <div>
-                            <p class="humidity">50%</p>
-                            <p>Humidity</p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <img src="Asset/wind.png" alt>
-                        <div>
-                            <p class="wind">15 km/h</p>
-                            <p>Wind Speed</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App - Responsive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #222;
+      --card-gradient: linear-gradient(135deg,#5d00fe 0%, #5b548a 100%);
+      --input-bg:#ebfffc;
+      --text-dark: #222;
+      --white: #fff;
+      --radius: 20px;
+      --max-card: 720px;
+      --gap: 16px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Poppins", sans-serif;
+      background: var(--bg);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding: 24px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    }
+
+    /* CARD */
+    .card{
+      width: min(96%, var(--max-card));
+      background: var(--card-gradient);
+      border-radius: var(--radius);
+      padding: clamp(20px, 4vw, 40px);
+      margin-top: clamp(40px, 8vw, 100px);
+      text-align:center;
+      color: var(--white);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      overflow: visible;
+    }
+
+    /* SEARCH */
+    .search{
+      display:flex;
+      gap: var(--gap);
+      align-items:center;
+      position:relative; 
+      justify-content:space-between;
+      margin-bottom: clamp(12px, 3vw, 20px);
+    }
+
+    .search input{
+      flex:1;
+      height: clamp(44px, 6vh, 60px);
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 0;
+      outline: none;
+      font-size: clamp(14px, 2vw, 18px);
+      background: var(--input-bg);
+      color: var(--text-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12) inset;
+    }
+
+    .search button{
+      width: clamp(44px, 8vw, 60px);
+      height: clamp(44px, 8vw, 60px);
+      border-radius: 50%;
+      border:0;
+      background: var(--input-bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .search button img{ width: clamp(16px, 3.5vw, 20px); }
+
+    /* SUGGESTIONS (dropdown) */
+    .suggestions{
+      list-style:none;
+      position:absolute;
+      left:0;
+      right:0;
+      top: calc(100% + 10px); 
+      max-height: 220px;
+      overflow:auto;
+      background: var(--input-bg);
+      color: var(--text-dark);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      z-index: 50;
+      display:none;
+    }
+
+    .suggestions li{
+      padding: 10px 16px;
+      cursor:pointer;
+      text-align:left;
+    }
+    .suggestions li:hover,
+    .suggestions li[aria-selected="true"]{
+      background: #d6f3f6;
+    }
+
+    /* WEATHER */
+    .weather{
+      display:none; 
+      margin-top: clamp(8px, 2vw, 20px);
+    }
+
+    .weather-icon{
+      width: clamp(90px, 22vw, 170px);
+      height: auto;
+      margin-top: clamp(10px, 2vw, 30px);
+    }
+
+    .temp{
+      font-size: clamp(36px, 8vw, 80px);
+      font-weight:500;
+      margin-top:8px;
+    }
+
+    .city{
+      font-size: clamp(20px, 4vw, 45px);
+      font-weight:400;
+      margin-top:-6px;
+    }
+
+    .details{
+      display:flex;
+      gap: clamp(12px, 4vw, 36px);
+      align-items:center;
+      justify-content:center;
+      padding: 0 clamp(8px, 3vw, 20px);
+      margin-top: clamp(16px, 4vw, 50px);
+      flex-wrap:wrap;
+    }
+
+    .col{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 120px;
+      background: rgba(255,255,255,0.06);
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .col img{ width: 36px; height:auto; }
+
+    .humidity, .wind{
+      font-size: clamp(18px, 3.2vw, 28px);
+      margin: 0;
+    }
+
+    /* RESPONSIVE LAYOUT CHANGES */
+    /* Small devices: stack search elements */
+    @media (max-width:600px){
+      .search{ flex-direction:column; align-items:stretch; gap:10px; }
+      .search button{ align-self:flex-end; }
+      .suggestions{ top: calc(100% + 10px); left:0; right:0; width:100%; }
+      .details{ flex-direction:column; gap:12px; }
+      .col{ width:100%; justify-content:flex-start; }
+    }
+
+    /* Larger tablets: center content and increase spacing */
+    @media (min-width:901px){
+      body{ padding:40px; }
+      .card{ padding: clamp(28px, 3.5vw, 48px); }
+    }
+
+    /* small visual polish */
+    ::-webkit-scrollbar{ height:8px; width:8px; }
+    ::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.2); border-radius:8px }
+  </style>
+</head>
+<body>
+  <div class="card" role="region" aria-label="Weather app">
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Enter city name"
+        spellcheck="false"
+        autocomplete="off"
+        aria-label="City name"
+      >
+      <button class="btn" aria-label="Search">
+        <img src="./Asset/search.png" alt="Search">
+      </button>
+      <ul class="suggestions" role="listbox" aria-label="Suggested locations"></ul>
+    </div>
+
+    <div class="weather" aria-live="polite">
+      <img src="Asset/rain.png" class="weather-icon" alt="Weather icon">
+      <h1 class="temp">22°c</h1>
+      <h2 class="city">New York</h2>
+
+      <div class="details">
+        <div class="col">
+          <img src="Asset/humidity.png" alt="humidity icon">
+          <div>
+            <p class="humidity">50%</p>
+            <p>Humidity</p>
+          </div>
         </div>
-        <script>
-const apikey = "eac6f1f8c57238650553cc7293cee1e2";
-const apiURL ="https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
-const searchbox = document.querySelector(".search input");
-const searchbtn = document.querySelector(".search button");
-const suggestionsBox=document.querySelector(".suggestions");
-const popularLocations = [
-  // 🌍 Countries (195: 193 UN members + 2 observers)
-  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
-  "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
-  "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
-  "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon",
-  "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Republic of)",
-  "Congo (Democratic Republic of)", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus",
-  "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt",
-  "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland",
-  "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala",
-  "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia",
-  "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya",
-  "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya",
-  "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali",
-  "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia (Federated States of)",
-  "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia",
-  "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
-  "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay",
-  "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis",
-  "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe",
-  "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia",
-  "Solomon Islands", "Somalia", "South Africa", "South Sudan", "South Korea", "Spain", "Sri Lanka", "Sudan",
-  "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo",
-  "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine",
-  "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu",
-  "Vatican City (Holy See)", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe", "Palestine",
 
-  // 🏙️ Major Cities (curated — many hundreds but not every single city in the world)
-  "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio",
-  "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "San Francisco", "Columbus",
-  "Fort Worth", "Indianapolis", "Charlotte", "Seattle", "Denver", "Washington", "Boston",
-  "El Paso", "Nashville", "Detroit", "Oklahoma City", "Portland", "Las Vegas", "Memphis",
-  "Louisville", "Baltimore", "Milwaukee", "Albuquerque", "Tucson", "Fresno", "Sacramento",
-  "Kansas City", "Mesa", "Atlanta", "Omaha", "Colorado Springs", "Raleigh", "Long Beach", "Virginia Beach",
-  "Miami", "Oakland", "Minneapolis", "Tulsa", "Wichita", "New Orleans", "Arlington", "Cleveland",
-  "Bakersfield", "Tampa", "Aurora", "Honolulu", "Anaheim", "Santa Ana", "Corpus Christi", "Riverside",
-  "Lexington", "St. Louis", "Stockton", "Pittsburgh", "Saint Paul", "Cincinnati", "Anchorage",
-  "Henderson", "Greensboro", "Plano", "Newark", "Lincoln", "Toledo", "Orlando", "Chula Vista",
-  "Irvine", "Fort Wayne", "Jersey City", "Durham", "St. Petersburg", "Laredo", "Buffalo",
-  "Madison", "Lubbock", "Chandler", "Scottsdale", "Glendale", "Reno", "Norfolk", "Winston–Salem",
-  "North Las Vegas", "Irving", "Chesapeake", "Gilbert", "Hialeah", "Garland", "Fremont",
-  "Richmond", "Boise", "Baton Rouge", "Des Moines", "Spokane", "San Bernardino", "Modesto",
+        <div class="col">
+          <img src="Asset/wind.png" alt="wind icon">
+          <div>
+            <p class="wind">15 km/h</p>
+            <p>Wind Speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  // International major metros & capitals
-  "London", "Paris", "Tokyo", "Beijing", "Shanghai", "Hong Kong", "Singapore", "Seoul", "Bangkok",
-  "Mumbai", "Delhi", "Kolkata", "Chennai", "Bengaluru", "Karachi", "Lagos", "Cairo", "Istanbul",
-  "Dubai", "Abu Dhabi", "Riyadh", "Jeddah", "Tehran", "Baghdad", "Kuala Lumpur", "Jakarta",
-  "Manila", "Ho Chi Minh City", "Hanoi", "Taipei", "Hong Kong", "Shenzhen", "Guangzhou", "Chengdu",
-  "Hangzhou", "Nanjing", "Xi'an", "Wuhan", "Surat", "Pune", "Ahmedabad", "Hyderabad", "Isfahan",
-  "Tel Aviv", "Jerusalem", "Amman", "Auckland", "Wellington", "Melbourne", "Sydney", "Perth",
-  "Brisbane", "Adelaide", "Canberra", "Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary",
-  "Edmonton", "Quebec City", "Halifax", "Winnipeg", "Guatemala City", "San Salvador", "Tegucigalpa",
-  "Managua", "San Jose", "Panama City", "Havana", "Quito", "Lima", "Bogotá", "Caracas", "Santiago",
-  "Buenos Aires", "Montevideo", "Asunción", "La Paz", "Sucre", "Brasília", "Salvador", "Recife",
-  "Fortaleza", "Manaus", "Belo Horizonte", "Curitiba", "Porto Alegre", "Medellín", "Cali", "Guayaquil",
+  <script src="script.js">
 
-  // Europe cities
-  "Madrid", "Barcelona", "Lisbon", "Porto", "Valencia", "Seville", "Bilbao", "Zaragoza", "Malaga",
-  "Rome", "Milan", "Naples", "Turin", "Florence", "Venice", "Bologna", "Genoa", "Palermo", "Athens",
-  "Thessaloniki", "Sofia", "Bucharest", "Budapest", "Prague", "Warsaw", "Krakow", "Gdansk",
-  "Riga", "Vilnius", "Tallinn", "Helsinki", "Oslo", "Stockholm", "Gothenburg", "Malmo", "Copenhagen",
-  "Brussels", "Antwerp", "Ghent", "Liège", "Amsterdam", "Rotterdam", "The Hague", "Utrecht",
-  "Zurich", "Geneva", "Basel", "Bern", "Munich", "Frankfurt", "Berlin", "Hamburg", "Cologne",
-  "Dublin", "Belfast", "Liverpool", "Manchester", "Leeds", "Glasgow", "Edinburgh", "Newcastle",
-
-  // Africa & Middle East cities
-  "Johannesburg", "Cape Town", "Durban", "Pretoria", "Nairobi", "Mombasa", "Kampala", "Kigali",
-  "Dar es Salaam", "Dodoma", "Accra", "Kumasi", "Casablanca", "Rabat", "Algiers", "Tunis", "Tripoli",
-  "Khartoum", "Abuja", "Lagos", "Ibadan", "Port Harcourt", "Kano", "Alexandria", "Giza", "Cairo",
-  "Beirut", "Doha", "Muscat", "Manama", "Bahrain City", "Kuwait City", "Sana'a", "Aden", "Amman",
-
-  // Central & South Asia
-  "Kabul", "Ashgabat", "Dushanbe", "Bishkek", "Tashkent", "Almaty", "Astana", "Dhaka", "Chittagong",
-  "Colombo", "Malé", "Thimphu", "Kathmandu", "Pokhara", "Lahore", "Islamabad", "Rawalpindi",
-  "Multan", "Peshawar", "Faisalabad",
-
-  // Oceania
-  "Suva", "Port Moresby", "Honiara", "Nukuʻalofa", "Apia", "Nouméa", "Papeete",
-
-  // Additional global cities & tourist hotspots
-  "Nice", "Cannes", "Monaco", "Biarritz", "Monte Carlo", "Saint Petersburg", "Moscow", "Kazan",
-  "Yekaterinburg", "Novosibirsk", "Ulaanbaatar", "Tbilisi", "Batumi", "Baku", "Yerevan", "Skopje",
-  "Pristina", "Belgrade", "Sarajevo", "Zagreb", "Split", "Rijeka", "Ljubljana", "Bratislava",
-  "Kosice", "Lviv", "Kharkiv", "Dnipro", "Odessa", "Bordeaux", "Lyon", "Marseille", "Toulouse",
-  "Nantes", "Strasbourg", "Cologne", "Dusseldorf", "Stuttgart", "Leipzig", "Dortmund",
-
-  // Well-known resort / island / pilgrimage / historical towns
-  "Cancún", "Tulum", "Punta Cana", "Huatulco", "Acapulco", "Istanbul (Bosphorus)", "Antalya", "Bodrum",
-  "Marrakech", "Fes", "Essaouira", "Agadir", "Zanzibar", "Mombasa", "Luxor", "Aswan", "Petra",
-  "Mecca", "Medina", "Lhasa", "Kathmandu", "Pokhara", "Guwahati",
-
-  // A few more major global hubs to broaden coverage
-  "Copenhagen", "Aarhus", "Leipzig", "Bremen", "Nuremberg", "Bucharest", "Cluj-Napoca", "Iași",
-  "Sofia", "Plovdiv", "Istanbul", "Bursa", "Izmir", "Antalya", "Adana", "Gaziantep", "Konya",
-
-  // End (this array contains all widely-recognized countries + a large curated set of major cities)
-];
-
-
-
-async function checkWeather(city){
-    const response = await fetch(apiURL + city + `&appid=${apikey}`);
-    
-    if (response.status == 404) {
-        alert("City not found!");
-        return;
-    }
-
-    const data = await response.json();
-    console.log(data);
-
-    document.querySelector(".city").innerHTML= data.name;
-    document.querySelector(".temp").innerHTML= Math.round(data.main.temp)+ "°c";
-    document.querySelector(".humidity").innerHTML= Math.round(data.main.humidity)+ "%";
-    document.querySelector(".wind").innerHTML= Math.round(data.wind.speed)+ " km/h";
-
-    if(data.weather[0].main == "Clouds"){
-        document.querySelector(".weather-icon").src = "Asset/clouds.png";
-    } else if(data.weather[0].main == "Clear"){
-        document.querySelector(".weather-icon").src = "Asset/clear.png";
-    } else if(data.weather[0].main == "Rain"){
-        document.querySelector(".weather-icon").src = "Asset/rain.png";
-    } else if(data.weather[0].main == "Drizzle"){
-        document.querySelector(".weather-icon").src = "Asset/drizzle.png";
-    } else if(data.weather[0].main == "Mist"){
-        document.querySelector(".weather-icon").src = "Asset/mist.png";
-    }
-    document.querySelector(".weather").style.display = "block";
-}
-
-searchbtn.addEventListener("click", () => {
-    checkWeather(searchbox.value);
-});
-searchbox.addEventListener("input", ()=>{
-const input = searchbox.value.toLowerCase();
-suggestionsBox.innerHTML = "";
-suggestionsBox.style.display = "none";
-
-
-    const filtered = popularLocations.filter(city=>city.toLowerCase().startsWith(input))
-    console.log(filtered);
-    if (filtered.length > 0) {
-    suggestionsBox.style.display = "block";
-}
-
-    filtered.forEach(city=>{
-        const suggestionsItem=document.createElement("li")
-        suggestionsItem.textContent=city;
-        suggestionsItem.addEventListener("click",()=>{
-            searchbox.value=city;
-            suggestionsBox.style.display="none";
-            checkWeather(city);
-
-        })
-        suggestionsBox.appendChild(suggestionsItem);
-    })
-})
-
-        </script>
-    </body>
+  </script>
+</body>
 </html>
