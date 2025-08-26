@@ -14,11 +14,9 @@ A simple weather web application built with **HTML, CSS, and JavaScript** that a
 
 ---
 
-## 🚀 Demo
+##🚀 Demo / Preview
 
-![Weather App Screenshot](<img width="752" height="717" alt="image" src="https://github.com/user-attachments/assets/40002c10-91e5-428c-874f-bff59346ed70" />
-)
-
+[Live Link](https://tubular-cobbler-fca504.netlify.app/)
 ---
 
 ## 🛠️ Tech Stack
@@ -109,7 +107,3 @@ weather-app/
 ## 📜 License
 
 This project is licensed under the **MIT License** – feel free to use, modify, and distribute it.
-
----
-
-Do you want me to also **add Markdown badges (like “Made with JavaScript”, “OpenWeather API”, etc.)** to make your README look even more professional?
