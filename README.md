@@ -16,7 +16,7 @@ A simple weather web application built with **HTML, CSS, and JavaScript** that a
 
 ##🚀 Demo / Preview
 
-[Live Link](https://tubular-cobbler-fca504.netlify.app/)
+[Live Link](https://clinquant-crepe-2d34bb.netlify.app/)
 ---
 
 ## 🛠️ Tech Stack
